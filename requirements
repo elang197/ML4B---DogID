@@ -1,0 +1,7 @@
+os
+Pillow
+numpy
+scikit-learn
+keras
+pickle
+streamlit
