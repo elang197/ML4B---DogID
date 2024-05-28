@@ -25,7 +25,7 @@ def load_images_from_folder(folder, img_size=(128, 128)):
     return np.array(images), np.array(labels)
 
 
-# Lade und verarbeite die Trainings- und Testdaten
+# Test/Training-Split
 train_images, train_labels = load_images_from_folder('DataDogs')
 test_images, test_labels = load_images_from_folder('DataDogs')
 
@@ -34,7 +34,7 @@ label_encoder = LabelEncoder()
 train_labels_encoded = label_encoder.fit_transform(train_labels)
 test_labels_encoded = label_encoder.transform(test_labels)
 
-# Definiere das CNN-Modell
+# CNN-Modell definieren
 model = Sequential([
     Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)),
     MaxPooling2D((2, 2)),
@@ -48,13 +48,13 @@ model = Sequential([
     Dense(len(label_encoder.classes_), activation='softmax')
 ])
 
-# Kompiliere das Modell
+# Modell kompelieren
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-# Trainiere das Modell
+# Modell fit
 model.fit(train_images, train_labels_encoded, epochs=10, validation_data=(test_images, test_labels_encoded))
 
-# Speichere das trainierte Modell und den LabelEncoder
+# das trainierte Modell und den LabelEncoder speichern
 model.save('dog_breed_classifier.h5')
 
 with open('label_encoder.pkl', 'wb') as f:
